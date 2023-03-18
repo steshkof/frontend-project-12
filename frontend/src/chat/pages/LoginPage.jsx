@@ -1,14 +1,23 @@
-import Nav from '../components/Nav';
+import TopPanel from '../components/TopPanel';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import images from '../images/images.js';
 import routes from '../routes.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useAuth } from '../contexts/contexts';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
+
+  useEffect(() => {
+    if (auth?.user?.token) {
+      navigate(routes.pages.chat);
+    }
+  }, [auth, navigate]);  
 
   const [authFailed, setAuthFailed] = useState(false);
 
@@ -27,8 +36,7 @@ const LoginPage = () => {
       axios
         .post(routes.apiRequests.login, values)
         .then((response) => {
-          const token = response.data.token;
-          localStorage.setItem('token', token);
+          auth.logIn(response.data)
           navigate(routes.pages.chat)
           setAuthFailed(false);
         })
@@ -43,7 +51,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Nav></Nav>
+      <TopPanel />
       <div className="container-fluid h-100">
         <div className="row justify-content-center align-content-center h-100">
           <div className="col-12 col-md-8 col-xxl-6">

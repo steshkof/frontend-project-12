@@ -14,11 +14,15 @@ export const fetchFromServer = createAsyncThunk(
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
-    channels: []
+    channels: [],
+    currentChannelId: null
   },
   reducers: {
     addChannels: (state, action) => {
       state.channels = action.payload;
+    },
+    setCurrentChannelId: (state, action) => {
+      state.currentChannelId = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -26,9 +30,10 @@ const channelsSlice = createSlice({
       .addCase(fetchFromServer.fulfilled, (state, action) => {
         const channels = action.payload;
         state.channels = channels;
+        state.currentChannelId = channels[0].id;
       });
   },
 });
 
-export const { addChannels } = channelsSlice.actions;
+export const { addChannels, setCurrentChannelId } = channelsSlice.actions;
 export default channelsSlice.reducer;

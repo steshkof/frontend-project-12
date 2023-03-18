@@ -1,10 +1,10 @@
-import Nav from '../components/Nav';
+import TopPanel from '../components/TopPanel';
 import images from '../images/images';
 
 const Page404 = () => {
   return (
     <>
-      <Nav />
+      <TopPanel />
       <div className="text-center">
         <img
           alt="Страница не найдена"

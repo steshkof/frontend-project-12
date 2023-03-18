@@ -1,37 +1,41 @@
-import Nav from '../components/Nav';
+import TopPanel from '../components/TopPanel';
+import Channels from '../components/Channels';
+import ChatRoom from '../components/ChatRoom';
+
 import { useNavigate } from 'react-router-dom';
 import routes from '../routes';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFromServer } from '../slices/channelsSlice';
 
-import Channels from '../components/Channels';
+import { useAuth } from '../contexts/contexts';
 
 const ChatPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const auth = useAuth();
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token === null) {
+    if (!auth?.user?.token) {
       navigate(routes.pages.login);
     } else {
-      const headers = { Authorization: `Bearer ${token}` };
+      const headers = auth.getAuthHeader();
       dispatch(fetchFromServer(headers));
     }
-  }, [navigate, dispatch]);
+  }, [auth, dispatch, navigate]);
 
   return (
     <>
-      <Nav></Nav>
+      <TopPanel />
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className="row h-100 bg-white flex-md-row">
           <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <Channels />
           </div>
           <div className="col p-0 h-100">
-
-          </div>
+            <ChatRoom />
+          </div>          
         </div>
       </div>
     </>
