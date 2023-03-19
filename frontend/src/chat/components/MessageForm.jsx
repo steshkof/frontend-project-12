@@ -1,17 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
 
-import { addMessage } from '../slices/messagesSlice';
 import images from '../images/images';
 
 import { useAuth } from '../contexts/contexts';
+import { useSocket } from '../contexts/contexts';
 
 const MessageForm = () => {
-  const dispatch = useDispatch();
   const { user } = useAuth();
+  const socket = useSocket();
   const inputRef = useRef();
   const channelId = useSelector((state) => state.channels.currentChannelId);
 
@@ -28,13 +28,13 @@ const MessageForm = () => {
       newMessage: '',
     },
     validationSchema: newMessageSheme,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       const newMessage = {
         body: values.newMessage,
         channelId,
         username: user.username,
       };
-      dispatch(addMessage(newMessage));
+      await socket.sendMessage(newMessage);
       resetForm();
     },
   });

@@ -5,7 +5,7 @@ import ChatRoom from '../components/ChatRoom';
 import { useNavigate } from 'react-router-dom';
 import routes from '../routes';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchFromServer } from '../slices/channelsSlice';
 
 import { useAuth } from '../contexts/contexts';
