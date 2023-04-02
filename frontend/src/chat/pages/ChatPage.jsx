@@ -1,11 +1,12 @@
 import TopPanel from '../components/TopPanel';
 import Channels from '../components/Channels';
 import ChatRoom from '../components/ChatRoom';
+import Modal from '../components/modals/Modal';
 
 import { useNavigate } from 'react-router-dom';
 import routes from '../routes';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchFromServer } from '../slices/channelsSlice';
 
 import { useAuth } from '../contexts/contexts';
@@ -38,6 +39,8 @@ const ChatPage = () => {
           </div>          
         </div>
       </div>
+
+      <Modal />
     </>
   );
 };

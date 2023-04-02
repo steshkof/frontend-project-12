@@ -1,18 +1,20 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Nav, Button, ButtonGroup, Dropdown } from 'react-bootstrap';
-import { setCurrentChannelId } from '../slices/channelsSlice'
+import { setCurrentChannelId } from '../slices/channelsSlice';
+import { openModal } from '../slices/modalsSlice';
 
 const Channels = () => {
   const channels = useSelector((state) => state.channels.channels);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const dispatch = useDispatch();
 
-  const setCurrentChannel = (id) => {
-    dispatch(setCurrentChannelId(id));
-  }
+  const setCurrentChannel = (id) => dispatch(setCurrentChannelId(id));
+  const handleAddChannel = () => dispatch(openModal({ type: "add" }));
+  const handleRemoveChannel = (id) => {dispatch(openModal({ type: "remove", channelId: id }))};
 
   const Channel = ( {channel, isActive, handleChoose} ) => {
     const buttonVariant = isActive ? 'secondary' : 'light';
+    
     const button = (
       <Button
         className="w-100 rounded-0 text-start text-truncate"
@@ -24,7 +26,7 @@ const Channels = () => {
       </Button>
     );
 
-    if (channel.removalbe) {
+    if (channel.removable) {
       return (
         <Dropdown as={ButtonGroup} className="d-flex">
           {button}
@@ -32,14 +34,14 @@ const Channels = () => {
             <span className="visually-hidden">Управление каналом</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="">Удалить</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>Удалить</Dropdown.Item>
             <Dropdown.Item href="">Переименовать</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-      );
+      )
+    } else {
+      return button;
     }
-    return button;
-
   }
 
   return (
@@ -49,6 +51,7 @@ const Channels = () => {
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"
+          onClick={handleAddChannel}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +75,7 @@ const Channels = () => {
                 channel={channel} 
                 isActive={currentChannelId === channel.id}
                 handleChoose={() => setCurrentChannel(channel.id)}
-                ></Channel>
+                />
             </Nav.Item>
           )
         })}

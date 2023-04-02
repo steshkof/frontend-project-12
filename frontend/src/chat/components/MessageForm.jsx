@@ -14,9 +14,10 @@ const MessageForm = () => {
   const socket = useSocket();
   const inputRef = useRef();
   const channelId = useSelector((state) => state.channels.currentChannelId);
+  const modalIsOpened = useSelector((state) => state.modals.isOpened);
 
   useEffect(() => {
-    inputRef.current.focus();
+    if(!modalIsOpened) inputRef.current.focus();
   });
 
   const newMessageSheme = yup.object({
@@ -59,6 +60,7 @@ const MessageForm = () => {
           disabled={formik.isSubmitting}
           ref={inputRef}
           required
+          autoComplete="off"
         />
         <Button
           className="btn-group-vertical"
