@@ -1,7 +1,9 @@
 import TopPanel from '../components/TopPanel';
 import images from '../images/images';
+import { useTranslation } from 'react-i18next';
 
 const Page404 = () => {
+  const { t } = useTranslation();
   return (
     <>
       <TopPanel />
@@ -11,9 +13,9 @@ const Page404 = () => {
           class="img-fluid w-25"
           src={images.notFound}
         />
-        <h1 className="h4 text-muted">Страница не найдена</h1>
+        <h1 className="h4 text-muted">{t('page404.title')}</h1>
         <p className="text-muted">
-          Но вы можете перейти <a href="/">на главную страницу</a>
+        {t('page404.message')} <a href="/">{t('page404.homepage')}</a>
         </p>
       </div>
     </>

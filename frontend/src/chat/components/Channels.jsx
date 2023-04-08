@@ -9,8 +9,10 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   const setCurrentChannel = (id) => dispatch(setCurrentChannelId(id));
+  
   const handleAddChannel = () => dispatch(openModal({ type: "add" }));
   const handleRemoveChannel = (id) => {dispatch(openModal({ type: "remove", channelId: id }))};
+  const handleRenameChannel = (id) => {dispatch(openModal({ type: "rename", channelId: id }))};
 
   const Channel = ( {channel, isActive, handleChoose} ) => {
     const buttonVariant = isActive ? 'secondary' : 'light';
@@ -35,7 +37,7 @@ const Channels = () => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>Удалить</Dropdown.Item>
-            <Dropdown.Item href="">Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>Переименовать</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )

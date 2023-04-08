@@ -6,7 +6,6 @@ export const fetchFromServer = createAsyncThunk(
   'channels/fetchFromServer',
   async (headers) => {
     const response = await axios.get(routes.apiRequests.getData, { headers })
-    console.log(response.data);
     return response.data;
   }
 );
@@ -16,7 +15,7 @@ const channelsSlice = createSlice({
   initialState: {
     channels: [],
     currentChannelId: null,
-    currentChannelDefaultId: null
+    defaultChannelId: null
   },
   reducers: {
     addChannel: (state, action) => {
@@ -25,9 +24,13 @@ const channelsSlice = createSlice({
     removeChannel: (state, action) => {
       const idOfChannelToRemove = action.payload.id;
       state.channels = state.channels.filter(channel => channel.id !== idOfChannelToRemove);
-      if(state.currentChannelId === idOfChannelToRemove) {
-        state.currentChannelId = state.currentChannelDefaultId;
-      }
+      if(state.currentChannelId === idOfChannelToRemove) state.currentChannelId = state.defaultChannelId;
+    },
+    renameChannel: (state, action) => {
+        const { id , name }= action.payload;
+        const targetChannel = state.channels.find(channel => channel.id === id);
+        console.log("targetChannel",targetChannel)
+        targetChannel.name  = name;
     },
     setCurrentChannelId: (state, action) => {
       state.currentChannelId = action.payload;
@@ -38,11 +41,11 @@ const channelsSlice = createSlice({
       .addCase(fetchFromServer.fulfilled, (state, action) => {
         const channels = action.payload.channels;
         state.channels = channels;
-        state.currentChannelDefaultId = action.payload.currentChannelId;
+        state.defaultChannelId = action.payload.currentChannelId;
         state.currentChannelId = action.payload.currentChannelId;
       });
   },
 });
 
-export const { addChannel, removeChannel, setCurrentChannelId } = channelsSlice.actions;
+export const { addChannel, removeChannel, renameChannel, setCurrentChannelId } = channelsSlice.actions;
 export default channelsSlice.reducer;

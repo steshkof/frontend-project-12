@@ -8,7 +8,7 @@ import { useSocket } from '../../contexts/contexts';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-const ModalAddChanel = () => {
+const ModalRenameChannel = () => {
   const dispatch = useDispatch();
   const socket = useSocket();
 
@@ -18,6 +18,8 @@ const ModalAddChanel = () => {
   }, []);
 
   const existingChannels = useSelector((state) => state.channels.channels).map((c) => c.name);
+  const channelId = useSelector((state) => state.modals.channelId)
+
   const modalAddChanelScheme = yup.object({
     name: yup
       .string()
@@ -37,9 +39,7 @@ const ModalAddChanel = () => {
     validationSchema: modalAddChanelScheme,
     onSubmit: async ({ name }) => {
       try {
-        const response =  await socket.addNewChannel({name})
-        const id = response.data.id;
-        dispatch(setCurrentChannelId(id));
+        await socket.renameChannel({id: channelId, name})
         dispatch(closeModal());
       } catch (error) {
         inputRef.current.select();
@@ -49,7 +49,7 @@ const ModalAddChanel = () => {
   return (
     <Modal show centered onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -95,4 +95,4 @@ const ModalAddChanel = () => {
   );
 };
 
-export default ModalAddChanel;
+export default ModalRenameChannel;

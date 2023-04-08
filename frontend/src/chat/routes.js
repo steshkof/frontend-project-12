@@ -8,7 +8,7 @@ const routes = {
   pages: {
     chat: '/',
     login: "/login",
-    signUp: '/singup'
+    signUp: '/signup'
   },
 }
 

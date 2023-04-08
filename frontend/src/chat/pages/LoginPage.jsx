@@ -9,9 +9,12 @@ import { useState, useEffect } from 'react';
 
 import { useAuth } from '../contexts/contexts';
 
+import { useTranslation } from 'react-i18next';
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const auth = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (auth?.user?.token) {
@@ -22,8 +25,8 @@ const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false);
 
   const loginSchema = yup.object({
-    username: yup.string().trim().required('Введите логин'),
-    password: yup.string().trim().required('Введите пароль'),
+    username: yup.string().trim().required(),
+    password: yup.string().trim().required(),
   });
 
   const formik = useFormik({
@@ -69,47 +72,47 @@ const LoginPage = () => {
                   onChange={formChangeHandler}
                   className="col-12 col-md-6 mt-3 mt-mb-0"
                 >
-                  <h1 className="text-center mb-4">Войти</h1>
+                  <h1 className="text-center mb-4">{t('auth.login')}</h1>
                   <div className="form-floating mb-3">
                     <input
                       name="username"
                       autoComplete="username"
                       required
-                      placeholder="Ваш ник"
+                      placeholder={t('auth.nickname')}
                       id="username"
                       className={authFailed === true ? 'form-control is-invalid' : 'form-control'}
                       value={formik.values.username}
                       onChange={formik.handleChange}
                     />
-                    <label htmlFor="username">Ваш ник</label>
+                    <label htmlFor="username">{t('auth.nickname')}</label>
                   </div>
                   <div className="form-floating mb-4">
                     <input
                       name="password"
                       autoComplete="current-password"
                       required
-                      placeholder="Пароль"
+                      placeholder={t('auth.password')}
                       type="password"
                       id="password"
                       className={authFailed === true ? 'form-control is-invalid' : 'form-control'}
                       value={formik.values.password}
                       onChange={formik.handleChange}
                     />
-                    <label className="form-label" htmlFor="password">Пароль</label>
-                    {authFailed && <div classname="invalid-tooltip">Неверные имя пользователя или пароль</div>}
+                    <label className="form-label" htmlFor="password">{t('auth.password')}</label>
+                    {authFailed && <div classnName="invalid-tooltip">{t('auth.authFaild')}</div>}
                   </div>
                   
                   <button
                     type="submit"
                     className="w-100 mb-3 btn btn-outline-primary"
                   >
-                    Войти
+                    {t('auth.login')}
                   </button>
                 </form>
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span>Нет аккаунта?</span> <a href="/signup">Регистрация</a>
+                  <span>{t('auth.noAccount')}</span> <a href="/signup">{t('auth.registration')}</a>
                 </div>
               </div>
             </div>

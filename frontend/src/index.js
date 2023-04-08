@@ -1,3 +1,5 @@
-import runApp from "./init";
+import init from "./init";
+import ReactDOM from 'react-dom/client';
 
-runApp();
+const root = ReactDOM.createRoot(document.getElementById('chat'));
+init().then((app) => root.render(app))
