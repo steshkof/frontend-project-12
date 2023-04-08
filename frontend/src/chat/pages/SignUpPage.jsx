@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/contexts';
 
 import { useTranslation } from 'react-i18next';
+import notify from '../notifications';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -57,14 +58,15 @@ const SignUpPage = () => {
         navigate(routes.pages.chat);
       })
       .catch((error) => {
-        console.log(error)
-        if (!error.isAxiosError) console.log(t('errors.unknown'));
+        if (!error.isAxiosError) notify('error', t('errors.unknown'));
 
         if (error.response?.status === 409) {
           inputRef.current.select();
           setNotUniqeUsername(t('auth.existedUser'))
           formik.errors.username = t('auth.existedUser');
-        } else return ;
+        } else {
+          notify('error', t('errors.network'))
+        } ;
       });
     },
   });
@@ -83,7 +85,7 @@ const SignUpPage = () => {
                   <img
                     src={images.signUp}
                     className="rounded-circle"
-                    alt="Войти"
+                    alt={t('auth.login')}
                   />
                 </div>
                 <form

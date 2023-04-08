@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
-
 import images from '../images/images';
-
 import { useAuth } from '../contexts/contexts';
 import { useSocket } from '../contexts/contexts';
+import { useTranslation } from 'react-i18next';
+import * as filter from 'leo-profanity';
 
 const MessageForm = () => {
   const { user } = useAuth();
@@ -16,12 +16,14 @@ const MessageForm = () => {
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const modalIsOpened = useSelector((state) => state.modals.isOpened);
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     if(!modalIsOpened) inputRef.current.focus();
   });
 
   const newMessageSheme = yup.object({
-    newMessage: yup.string().trim().required('Введите сообщение'),
+    newMessage: yup.string().trim().required(),
   });
 
   const formik = useFormik({
@@ -30,8 +32,9 @@ const MessageForm = () => {
     },
     validationSchema: newMessageSheme,
     onSubmit: async (values, { resetForm }) => {
+      const filteredMessage = filter.clean(values.newMessage)
       const newMessage = {
-        body: values.newMessage,
+        body: filteredMessage,
         channelId,
         username: user.username,
       };
@@ -52,8 +55,8 @@ const MessageForm = () => {
           name="newMessage"
           id="newMessage"
           data-testid="newMessage"
-          placeholder="Введите сообщение..."
-          aria-label="Введите сообщение..."
+          placeholder={t('chatroom.enterMessage')}
+          aria-label={t('chatroom.enterMessage')}
           value={formik.values.newMessage}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -68,8 +71,8 @@ const MessageForm = () => {
           variant=""
           disabled={formik.isSubmitting}
         >
-          <img src={images.send} alt="Отправить" />
-          <span className="visually-hidden">Отправить</span>
+          <img src={images.send} alt={t('chatroom.send')} />
+          <span className="visually-hidden">{t('chatroom.send')}</span>
         </Button>
       </div>
     </Form>

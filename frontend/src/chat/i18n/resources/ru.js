@@ -19,9 +19,47 @@ const ru =  {
       existedUser: 'Такой пользователь уже существует',
     },
     page404: {
-      title: 'Страница не найдена',
+      pagenotFound: 'Страница не найдена',
       message: 'Но вы можете перейти',
       homepage: 'на главную страницу'
+    },
+    errors: {
+      network: 'Ошибка соединения',
+      unknown: 'Неизвестная ошибка',
+      unauthorized: 'Ошибка авторизации',
+    },
+    modals: {
+      remove: 'Удалить',
+      cancel: 'Отменить',
+      submit: 'Отправить',
+      addChannel: 'Добавить канал',
+      renameChannel: 'Переименовать канал',
+      removeChannel: 'Удалить канал',
+      channelName: 'Имя канала',
+      nameLength: 'От 3 до 20 символов',
+      required: 'Обязательное поле',
+      uniqueName: 'Должно быть уникальным',
+      areYouSure: 'Уверены?',
+    },
+    chatroom: {
+      send: 'Отправить',
+      channels: 'Каналы',
+      newMessage: 'Новое сообщение',
+      enterMessage: 'Введите сообщение...',
+      rename: 'Переименовать',
+      remove: 'Удалить',
+      manageChannel: 'Управление каналом',
+      messagesCounter: {
+        messagesCount_zero: '{{count}} сообщений',
+        messagesCount_one: '{{count}} сообщение',
+        messagesCount_few: '{{count}} сообщения',
+        messagesCount_many: '{{count}} сообщений',
+      },
+    },
+    notifications: {
+      channelCreated: 'Канал создан',
+      channelRemoved: 'Канал удален',
+      channelRenamed: 'Канал переименован',
     }
   }
 }

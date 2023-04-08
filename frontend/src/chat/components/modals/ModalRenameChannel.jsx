@@ -3,43 +3,48 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from '../../slices/modalsSlice';
-import { setCurrentChannelId } from '../../slices/channelsSlice';
 import { useSocket } from '../../contexts/contexts';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { useTranslation } from 'react-i18next';
+import notify from '../../notifications';
+
 const ModalRenameChannel = () => {
   const dispatch = useDispatch();
   const socket = useSocket();
+  const { t } = useTranslation();
 
   const inputRef = useRef();
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.select();
   }, []);
 
   const existingChannels = useSelector((state) => state.channels.channels).map((c) => c.name);
-  const channelId = useSelector((state) => state.modals.channelId)
+  const channelId = useSelector((state) => state.modals.channelId);
+  const channelName = useSelector((state) => state.modals?.channelName);
 
   const modalAddChanelScheme = yup.object({
     name: yup
       .string()
       .trim()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(existingChannels, 'Должно быть уникальным')
-      .required('Обязательное поле'),
+      .min(3, t('modals.nameLength'))
+      .max(20, t('modals.nameLength'))
+      .notOneOf(existingChannels, t('modals.uniqueName'))
+      .required(t('modals.required')),
   });
 
   const handleClose = () => dispatch(closeModal());
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name: channelName ? channelName : '',
     },
     validationSchema: modalAddChanelScheme,
     onSubmit: async ({ name }) => {
       try {
         await socket.renameChannel({id: channelId, name})
+        notify('success', t('notifications.channelRenamed'))
         dispatch(closeModal());
       } catch (error) {
         inputRef.current.select();
@@ -49,7 +54,7 @@ const ModalRenameChannel = () => {
   return (
     <Modal show centered onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -59,7 +64,7 @@ const ModalRenameChannel = () => {
               name="name"
               id="addChannel"
               data-testid="addChannel"
-              aria-label="Имя канала"
+              aria-label={t('modals.channelName')}
               value={formik.values.name}
               isInvalid={formik.touched.name && formik.errors.name}
               onChange={formik.handleChange}
@@ -69,7 +74,7 @@ const ModalRenameChannel = () => {
               required
             />
             <Form.Label visuallyHidden="true" htmlFor="addChannel">
-              Имя канала
+              {t('modals.channelName')}
             </Form.Label>
             {formik.touched.name && formik.errors.name ? (
               <Form.Control.Feedback type="invalid">
@@ -81,14 +86,14 @@ const ModalRenameChannel = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" disabled={formik.isSubmitting} onClick={handleClose}>
-          Отменить
+          {t('modals.cancel')}
         </Button>
         <Button
           variant="primary"
           onClick={formik.handleSubmit}
           disabled={formik.isSubmitting}
         >
-          Отправить
+          {t('modals.submit')}
         </Button>
       </Modal.Footer>
     </Modal>

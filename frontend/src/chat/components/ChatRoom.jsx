@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
 import MessageForm from './MessageForm';
+import { useTranslation } from 'react-i18next';
 
 const ChatRoom = () => {
+  const { t } = useTranslation();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const messages = useSelector((state) => state
     .messages
@@ -11,8 +13,6 @@ const ChatRoom = () => {
   const currentChannelName = useSelector((state) => state.channels.channels
   .find(({ id }) => id === currentChannelId)?.name);
 
-
-
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -20,7 +20,7 @@ const ChatRoom = () => {
           <p className="m-0">
             <b>{`# ${currentChannelName}`}</b>
           </p>
-          <span className="text-muted">{messagesCount} сообщений</span>
+          <span className="text-muted">{ t('chatroom.messagesCounter.messagesCount', { count: messagesCount }) }</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messages.map((message) => <div key={message.id} className="text-break mb-2"><b>{message.username}</b>: {message.body}</div>)}

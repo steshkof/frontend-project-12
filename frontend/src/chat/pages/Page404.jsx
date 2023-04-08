@@ -9,14 +9,12 @@ const Page404 = () => {
       <TopPanel />
       <div className="text-center">
         <img
-          alt="Страница не найдена"
+          alt={t('page404.pagenotFound')}
           class="img-fluid w-25"
           src={images.notFound}
         />
-        <h1 className="h4 text-muted">{t('page404.title')}</h1>
-        <p className="text-muted">
-        {t('page404.message')} <a href="/">{t('page404.homepage')}</a>
-        </p>
+        <h1 className="h4 text-muted">{t('page404.pagenotFound')}</h1>
+        <p className="text-muted">{t('page404.message')} <a href="/">{t('page404.homepage')}</a></p>
       </div>
     </>
   );

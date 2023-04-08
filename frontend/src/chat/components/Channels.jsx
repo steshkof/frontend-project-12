@@ -2,17 +2,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Nav, Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { setCurrentChannelId } from '../slices/channelsSlice';
 import { openModal } from '../slices/modalsSlice';
+import { useTranslation } from 'react-i18next';
 
 const Channels = () => {
   const channels = useSelector((state) => state.channels.channels);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const setCurrentChannel = (id) => dispatch(setCurrentChannelId(id));
   
   const handleAddChannel = () => dispatch(openModal({ type: "add" }));
   const handleRemoveChannel = (id) => {dispatch(openModal({ type: "remove", channelId: id }))};
-  const handleRenameChannel = (id) => {dispatch(openModal({ type: "rename", channelId: id }))};
+  const handleRenameChannel = (id, name) => {dispatch(openModal({ type: "rename", channelId: id, channelName: name }))};
 
   const Channel = ( {channel, isActive, handleChoose} ) => {
     const buttonVariant = isActive ? 'secondary' : 'light';
@@ -33,11 +35,11 @@ const Channels = () => {
         <Dropdown as={ButtonGroup} className="d-flex">
           {button}
           <Dropdown.Toggle split variant={buttonVariant} id="dropdown-split-basic flex-grow-0">
-            <span className="visually-hidden">Управление каналом</span>
+            <span className="visually-hidden">{t('chatroom.manageChannel')}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>Удалить</Dropdown.Item>
-            <Dropdown.Item onClick={() => handleRenameChannel(channel.id)}>Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleRemoveChannel(channel.id)}>{t('chatroom.remove')}</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleRenameChannel(channel.id, channel.name)}>{t('chatroom.rename')}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )
@@ -49,7 +51,7 @@ const Channels = () => {
   return (
     <>
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('chatroom.channels')}</b>
         <button
           type="button"
           className="p-0 text-primary btn btn-group-vertical"

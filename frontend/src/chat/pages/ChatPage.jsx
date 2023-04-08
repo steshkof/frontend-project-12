@@ -6,25 +6,37 @@ import Modal from '../components/modals/Modal';
 import { useNavigate } from 'react-router-dom';
 import routes from '../routes';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchFromServer } from '../slices/channelsSlice';
 
 import { useAuth } from '../contexts/contexts';
+import notify from '../notifications';
+import { useTranslation } from 'react-i18next';
 
 const ChatPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const auth = useAuth();
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     if (!auth?.user?.token) {
       navigate(routes.pages.login);
     } else {
       const headers = auth.getAuthHeader();
-      dispatch(fetchFromServer(headers));
+      dispatch(fetchFromServer(headers))
+        .catch((error) => {
+          if (error.code === 401) {
+            notify('error', t('errors.unauthorized'));
+          } else {
+            notify('error', error.isAxiosError ? t('errors.network') : t('errors.unknown'));
+          }
+        })
+      ;
     }
-  }, [auth, dispatch, navigate]);
+  }, [auth, dispatch, navigate, t]);
 
   return (
     <>

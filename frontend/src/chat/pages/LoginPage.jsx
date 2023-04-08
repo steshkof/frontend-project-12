@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/contexts';
 
 import { useTranslation } from 'react-i18next';
+import notify from '../notifications';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -44,8 +45,12 @@ const LoginPage = () => {
           setAuthFailed(false);
         })
         .catch((error) => {
-          setAuthFailed(true);
-          console.log(error);
+          if (error.code === 401) {
+            notify('error', t('errors.unauthorized'))
+            setAuthFailed(true);
+          } else {
+            notify('error', t('errors.network'))
+          }
         });
     },
   });
@@ -64,7 +69,7 @@ const LoginPage = () => {
                   <img
                     src={images.login}
                     className="rounded-circle"
-                    alt="Войти"
+                    alt={t('auth.login')}
                   />
                 </div>
                 <form
