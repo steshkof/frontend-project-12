@@ -104,6 +104,7 @@ const SignUpPage = () => {
                       className={formik.errors.username && formik.touched.username ? 'form-control is-invalid' : 'form-control'}
                       value={formik.values.username}
                       onChange={(e) => { formik.handleChange(e); setNotUniqeUsername('') }}
+                      onBlur={formik.handleBlur}
                     />
                     <label htmlFor="username">{t('auth.username')}</label>
                     {formik.errors.username && formik.touched.username && <div className="invalid-tooltip">{notUniqeUsername ? notUniqeUsername : t('auth.usernameLength')}</div>}
@@ -119,6 +120,7 @@ const SignUpPage = () => {
                       className={formik.errors.password && formik.touched.password ? 'form-control is-invalid' : 'form-control'}
                       value={formik.values.password}
                       onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                     <label className="form-label" htmlFor="password">{t('auth.password')}</label>
                     {formik.errors.password && formik.touched.password && <div className="invalid-tooltip">{t('auth.passwordLength')}</div>}
