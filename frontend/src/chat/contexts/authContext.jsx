@@ -8,7 +8,6 @@ const AuthProvider = ({ children }) => {
   const setUserData = (userData) => {
     if (userData) localStorage.setItem('user', JSON.stringify(userData));
     else localStorage.removeItem('user');
-
     setUser(userData);
   };
 
