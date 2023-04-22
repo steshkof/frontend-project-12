@@ -40,6 +40,7 @@ const MessageForm = () => {
       };
       await socket.sendMessage(newMessage);
       resetForm();
+      throw new Error('Rollbar test!');
     },
   });
 

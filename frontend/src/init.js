@@ -10,6 +10,7 @@ import store from './chat/slices'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as leoProfanity from 'leo-profanity';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 const init = async () => {
   const socket = io();
@@ -17,15 +18,24 @@ const init = async () => {
   const ruDictionary = leoProfanity.getDictionary('ru');
   leoProfanity.add(ruDictionary);
 
+  const rollbarConfig = {
+    accessToken: 'f07d43bc445642aaade6840029af5082',
+    environment: 'testenv',
+  };
+
   return (
       <I18nextProvider i18n={i18n}>
         <Provider store={store} >
-          <AuthProvider>
-            <SocketProvider socket={socket}>
-              <App />
-              <ToastContainer />
-            </SocketProvider>
-          </AuthProvider>
+            <RollbarProvider config={rollbarConfig}>
+              <ErrorBoundary>
+                <AuthProvider>
+                  <SocketProvider socket={socket}>
+                    <App />
+                    <ToastContainer />
+                  </SocketProvider>
+                </AuthProvider>
+                </ErrorBoundary>
+            </RollbarProvider>
         </Provider>
       </I18nextProvider>
   )
