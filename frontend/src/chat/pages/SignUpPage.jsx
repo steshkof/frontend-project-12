@@ -134,7 +134,7 @@ const SignUpPage = () => {
                       value={formik.values.confirmPassword}
                       onChange={formik.handleChange}
                     />
-                    <label className="form-label" htmlFor="password">{t('auth.passwordConfirm')}</label>
+                    <label className="form-label" htmlFor="confirmPassword">{t('auth.passwordConfirm')}</label>
                     {formik.errors.confirmPassword && formik.touched.confirmPassword && <div className="invalid-tooltip">{t('auth.passwordsMatch')}</div>}
                   </div>
                   
