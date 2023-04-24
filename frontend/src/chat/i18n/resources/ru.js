@@ -58,7 +58,7 @@ const ru =  {
     },
     notifications: {
       channelCreated: 'Канал создан',
-      channelRemoved: 'Канал удален',
+      channelRemoved: 'Канал удалён',
       channelRenamed: 'Канал переименован',
     }
   }
