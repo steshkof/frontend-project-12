@@ -20,7 +20,7 @@ const MessageForm = () => {
 
   useEffect(() => {
     if(!modalIsOpened) inputRef.current.focus();
-  });
+  },[modalIsOpened]);
 
   const newMessageSheme = yup.object({
     newMessage: yup.string().trim().required(),
@@ -56,7 +56,7 @@ const MessageForm = () => {
           id="newMessage"
           data-testid="newMessage"
           placeholder={t('chatroom.enterMessage')}
-          aria-label={t('chatroom.enterMessage')}
+          aria-label={t('chatroom.newMessage')}
           value={formik.values.newMessage}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -69,7 +69,7 @@ const MessageForm = () => {
           className="btn-group-vertical"
           type="submit"
           variant=""
-          disabled={formik.isSubmitting}
+          disabled={formik.isSubmitting || !formik.dirty || !formik.isValid}
         >
           <img src={images.send} alt={t('chatroom.send')} />
           <span className="visually-hidden">{t('chatroom.send')}</span>
