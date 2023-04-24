@@ -97,7 +97,6 @@ const SignUpPage = () => {
                     <input
                       name="username"
                       autoComplete="off"
-                      required
                       ref={inputRef}
                       placeholder={t('auth.username')}
                       id="username"
