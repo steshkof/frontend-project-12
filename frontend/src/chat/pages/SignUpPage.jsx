@@ -113,7 +113,6 @@ const SignUpPage = () => {
                     <input
                       name="password"
                       autoComplete="off"
-                      required
                       placeholder={t('auth.password')}
                       type="password"
                       id="password"
@@ -129,7 +128,6 @@ const SignUpPage = () => {
                     <input
                       name="confirmPassword"
                       autoComplete="off"
-                      required
                       placeholder={t('auth.passwordConfirm')}
                       type="password"
                       id="confirmPassword"
