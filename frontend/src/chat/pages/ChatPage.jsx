@@ -1,17 +1,15 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import TopPanel from '../components/TopPanel';
 import Channels from '../components/Channels';
 import ChatRoom from '../components/ChatRoom';
 import Modal from '../components/modals/Modal';
-
-import { useNavigate } from 'react-router-dom';
 import routes from '../routes';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { fetchFromServer } from '../slices/channelsSlice';
-
 import { useAuth } from '../contexts/contexts';
 import notify from '../notifications';
-import { useTranslation } from 'react-i18next';
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -19,7 +17,6 @@ const ChatPage = () => {
 
   const auth = useAuth();
   const { t } = useTranslation();
-
 
   useEffect(() => {
     if (!auth?.user?.token) {
@@ -33,8 +30,7 @@ const ChatPage = () => {
           } else {
             notify('error', error.isAxiosError ? t('errors.network') : t('errors.unknown'));
           }
-        })
-      ;
+        });
     }
   }, [auth, dispatch, navigate, t]);
 
@@ -48,7 +44,7 @@ const ChatPage = () => {
           </div>
           <div className="col p-0 h-100">
             <ChatRoom />
-          </div>          
+          </div>
         </div>
       </div>
 

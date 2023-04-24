@@ -1,16 +1,14 @@
-import TopPanel from '../components/TopPanel';
+import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import images from '../images/images.js';
-import routes from '../routes.js';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-
+import routes from '../routes.js';
 import { useAuth } from '../contexts/contexts';
-
-import { useTranslation } from 'react-i18next';
+import TopPanel from '../components/TopPanel';
 import notify from '../notifications';
+import images from '../images/images.js';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,7 +19,7 @@ const LoginPage = () => {
     if (auth?.user?.token) {
       navigate(routes.pages.chat);
     }
-  }, [auth, navigate]);  
+  }, [auth, navigate]);
 
   const [authFailed, setAuthFailed] = useState(false);
 
@@ -40,16 +38,16 @@ const LoginPage = () => {
       axios
         .post(routes.apiRequests.login, values)
         .then((response) => {
-          auth.logIn(response.data)
-          navigate(routes.pages.chat)
+          auth.logIn(response.data);
+          navigate(routes.pages.chat);
           setAuthFailed(false);
         })
         .catch((error) => {
           if (error.response?.status === 401) {
-            notify('error', t('errors.unauthorized'))
+            notify('error', t('errors.unauthorized'));
             setAuthFailed(true);
           } else {
-            notify('error', t('errors.network'))
+            notify('error', t('errors.network'));
           }
         });
     },
@@ -106,7 +104,7 @@ const LoginPage = () => {
                     <label className="form-label" htmlFor="password">{t('auth.password')}</label>
                     {authFailed && <div className="invalid-tooltip">{t('auth.authFaild')}</div>}
                   </div>
-                  
+
                   <button
                     type="submit"
                     className="w-100 mb-3 btn btn-outline-primary"
@@ -117,7 +115,8 @@ const LoginPage = () => {
               </div>
               <div className="card-footer p-4">
                 <div className="text-center">
-                  <span>{t('auth.noAccount')}</span> <a href="/signup">{t('auth.registration')}</a>
+                  <span>{t('auth.noAccount')}</span>
+                  <a href="/signup">{t('auth.registration')}</a>
                 </div>
               </div>
             </div>

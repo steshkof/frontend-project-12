@@ -1,15 +1,13 @@
-import TopPanel from '../components/TopPanel';
+import { useTranslation } from 'react-i18next';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import images from '../images/images.js';
-import routes from '../routes.js';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
-
+import routes from '../routes.js';
 import { useAuth } from '../contexts/contexts';
-
-import { useTranslation } from 'react-i18next';
+import TopPanel from '../components/TopPanel';
+import images from '../images/images.js';
 import notify from '../notifications';
 
 const SignUpPage = () => {
@@ -24,7 +22,7 @@ const SignUpPage = () => {
     if (auth?.user?.token) {
       navigate(routes.pages.chat);
     }
-  }, [auth, navigate]);  
+  }, [auth, navigate]);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -45,33 +43,31 @@ const SignUpPage = () => {
 
   const formik = useFormik({
     initialValues: {
-        username: '',
-        password: '',
-        confirmPassword: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
     },
     validationSchema: registrationSchema,
     onSubmit: (values) => {
       const { username, password } = values;
       axios.post(routes.apiRequests.signUp, { username, password })
-      .then((response) => {
-        auth.logIn(response.data);
-        navigate(routes.pages.chat);
-      })
-      .catch((error) => {
-        if (!error.isAxiosError) notify('error', t('errors.unknown'));
+        .then((response) => {
+          auth.logIn(response.data);
+          navigate(routes.pages.chat);
+        })
+        .catch((error) => {
+          if (!error.isAxiosError) notify('error', t('errors.unknown'));
 
-        if (error.response?.status === 409) {
-          inputRef.current.select();
-          setNotUniqeUsername(t('auth.existedUser'))
-          formik.errors.username = t('auth.existedUser');
-        } else {
-          notify('error', t('errors.network'))
-        } ;
-      });
+          if (error.response?.status === 409) {
+            inputRef.current.select();
+            setNotUniqeUsername(t('auth.existedUser'));
+            formik.errors.username = t('auth.existedUser');
+          } else {
+            notify('error', t('errors.network'));
+          }
+        });
     },
   });
-
- 
 
   return (
     <>
@@ -102,11 +98,11 @@ const SignUpPage = () => {
                       id="username"
                       className={formik.errors.username && formik.touched.username ? 'form-control is-invalid' : 'form-control'}
                       value={formik.values.username}
-                      onChange={(e) => { formik.handleChange(e); setNotUniqeUsername('') }}
+                      onChange={(e) => { formik.handleChange(e); setNotUniqeUsername(''); }}
                       onBlur={formik.handleBlur}
                     />
                     <label htmlFor="username">{t('auth.username')}</label>
-                    {formik.errors.username && formik.touched.username && <div className="invalid-tooltip">{notUniqeUsername ? notUniqeUsername : t('auth.usernameLength')}</div>}
+                    {formik.errors.username && formik.touched.username && <div className="invalid-tooltip">{notUniqeUsername || t('auth.usernameLength')}</div>}
                   </div>
                   <div className="form-floating mb-4">
                     <input
@@ -137,7 +133,7 @@ const SignUpPage = () => {
                     <label className="form-label" htmlFor="confirmPassword">{t('auth.passwordConfirm')}</label>
                     {formik.errors.confirmPassword && formik.touched.confirmPassword && <div className="invalid-tooltip">{t('auth.passwordsMatch')}</div>}
                   </div>
-                  
+
                   <button
                     type="submit"
                     className="w-100 mb-3 btn btn-outline-primary"
