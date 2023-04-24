@@ -45,7 +45,7 @@ const LoginPage = () => {
           setAuthFailed(false);
         })
         .catch((error) => {
-          if (error.code === 401) {
+          if (error.response?.status === 401) {
             notify('error', t('errors.unauthorized'))
             setAuthFailed(true);
           } else {
@@ -104,7 +104,7 @@ const LoginPage = () => {
                       onChange={formik.handleChange}
                     />
                     <label className="form-label" htmlFor="password">{t('auth.password')}</label>
-                    {authFailed && <div classnName="invalid-tooltip">{t('auth.authFaild')}</div>}
+                    {authFailed && <div className="invalid-tooltip">{t('auth.authFaild')}</div>}
                   </div>
                   
                   <button
