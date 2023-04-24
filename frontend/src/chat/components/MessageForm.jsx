@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
-import images from '../images/images';
-import { useAuth } from '../contexts/contexts';
-import { useSocket } from '../contexts/contexts';
 import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
+import images from '../images/images';
+import { useAuth, useSocket } from '../contexts/contexts';
 
 const MessageForm = () => {
   const { user } = useAuth();
@@ -19,8 +18,8 @@ const MessageForm = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if(!modalIsOpened) inputRef.current.focus();
-  },[modalIsOpened]);
+    if (!modalIsOpened) inputRef.current.focus();
+  }, [modalIsOpened]);
 
   const newMessageSheme = yup.object({
     newMessage: yup.string().trim().required(),
@@ -32,7 +31,7 @@ const MessageForm = () => {
     },
     validationSchema: newMessageSheme,
     onSubmit: async (values, { resetForm }) => {
-      const filteredMessage = filter.clean(values.newMessage)
+      const filteredMessage = filter.clean(values.newMessage);
       const newMessage = {
         body: filteredMessage,
         channelId,

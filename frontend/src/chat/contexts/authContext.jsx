@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const authContextProviderValue = {
     loggedIn: !!user?.token,
     user,

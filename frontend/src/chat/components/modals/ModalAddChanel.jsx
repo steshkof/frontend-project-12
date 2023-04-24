@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { closeModal } from '../../slices/modalsSlice';
 import { setCurrentChannelId } from '../../slices/channelsSlice';
 import { useSocket } from '../../contexts/contexts';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
 
-import { useTranslation } from 'react-i18next';
 import notify from '../../notifications';
 
 const ModalAddChanel = () => {
@@ -41,11 +40,11 @@ const ModalAddChanel = () => {
     validationSchema: modalAddChanelScheme,
     onSubmit: async ({ name }) => {
       try {
-        const response =  await socket.addNewChannel({name})
-        const id = response.data.id;
+        const response = await socket.addNewChannel({ name });
+        const { id } = response.data;
         dispatch(setCurrentChannelId(id));
         dispatch(closeModal());
-        notify('success', t('notifications.channelCreated'))
+        notify('success', t('notifications.channelCreated'));
       } catch (error) {
         inputRef.current.select();
       }

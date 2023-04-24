@@ -1,13 +1,12 @@
-import { useAuth } from '../contexts/contexts';
 import { useTranslation } from 'react-i18next';
-
+import { useAuth } from '../contexts/contexts';
 
 const TopPanel = () => {
   const auth = useAuth();
   const { t } = useTranslation();
 
-  const loggedIn = auth.loggedIn;
-  
+  const { loggedIn } = auth;
+
   const logOutHandler = () => {
     auth.logOut();
   };

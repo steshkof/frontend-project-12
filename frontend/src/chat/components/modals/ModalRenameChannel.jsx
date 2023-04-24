@@ -1,13 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { closeModal } from '../../slices/modalsSlice';
-import { useSocket } from '../../contexts/contexts';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-
 import { useTranslation } from 'react-i18next';
+import { useSocket } from '../../contexts/contexts';
+import { closeModal } from '../../slices/modalsSlice';
 import notify from '../../notifications';
 
 const ModalRenameChannel = () => {
@@ -38,13 +36,13 @@ const ModalRenameChannel = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: channelName ? channelName : '',
+      name: channelName || '',
     },
     validationSchema: modalAddChanelScheme,
     onSubmit: async ({ name }) => {
       try {
-        await socket.renameChannel({id: channelId, name})
-        notify('success', t('notifications.channelRenamed'))
+        await socket.renameChannel({ id: channelId, name });
+        notify('success', t('notifications.channelRenamed'));
         dispatch(closeModal());
       } catch (error) {
         inputRef.current.select();

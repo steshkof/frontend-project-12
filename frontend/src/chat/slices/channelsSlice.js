@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import routes from '../routes';
 import axios from 'axios';
+import routes from '../routes';
 
 export const fetchFromServer = createAsyncThunk(
   'channels/fetchFromServer',
@@ -41,7 +41,7 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchFromServer.fulfilled, (state, action) => {
-        const channels = action.payload.channels;
+        const { channels } = action.payload;
         state.channels = channels;
         state.defaultChannelId = action.payload.currentChannelId;
         state.currentChannelId = action.payload.currentChannelId;
