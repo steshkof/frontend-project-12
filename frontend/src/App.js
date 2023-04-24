@@ -1,12 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import Page404 from './chat/pages/Page404.jsx';
 import LoginPage from './chat/pages/LoginPage.jsx';
 import ChatPage from './chat/pages/ChatPage.jsx';
 import SignUpPage from './chat/pages/SignUpPage.jsx';
 
 import routes from './chat/routes.js';
-
 
 function App() {
   return (

@@ -10,16 +10,16 @@ const modalsSlice = createSlice({
   },
   reducers: {
     openModal: (state, action) => {
-      state.isOpened = true; 
+      state.isOpened = true;
       state.type = action.payload.type;
       state.channelId = action.payload.channelId;
-      if(action.payload?.channelName) state.channelName = action.payload.channelName;
+      if (action.payload?.channelName) state.channelName = action.payload.channelName;
     },
     closeModal: (state) => {
-      state.isOpened = false; 
+      state.isOpened = false;
       state.channelId = null;
       state.channelName = null;
-    }
+    },
   },
 });
 

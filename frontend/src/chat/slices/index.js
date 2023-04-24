@@ -9,6 +9,6 @@ const store = configureStore({
     messages: messagesReducer,
     modals: modalsReducer,
   },
-  devTools: process.env.NODE_ENV !== 'production'
+  devTools: process.env.NODE_ENV !== 'production',
 });
 export default store;

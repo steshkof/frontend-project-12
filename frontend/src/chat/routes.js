@@ -7,9 +7,9 @@ const routes = {
 
   pages: {
     chat: '/',
-    login: "/login",
-    signUp: '/signup'
+    login: '/login',
+    signUp: '/signup',
   },
-}
+};
 
 export default routes;

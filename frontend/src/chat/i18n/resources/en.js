@@ -1,9 +1,9 @@
-const en =  {
+const en = {
   translation: {
     headerTitle: 'Hexlet Chat',
     auth: {
       login: 'Войти',
-      logout: 'Выйти',      
+      logout: 'Выйти',
       signup: 'Зарегистрироваться',
       registration: 'Registration',
       required: 'Обязательное поле',
@@ -21,17 +21,14 @@ const en =  {
     page404: {
       title: 'Страница не найдена',
       message: 'Но вы можете перейти',
-      homepage: 'на главную страницу'
+      homepage: 'на главную страницу',
     },
     errors: {
       network: 'Ошибка соединения',
       unknown: 'Неизвестная ошибка',
       unauthorized: 'Ошибка авторизации',
     },
-  }
-}
+  },
+};
 
 export default en;
-
-// import { useTranslation } from 'react-i18next';
-// const { t } = useTranslation();

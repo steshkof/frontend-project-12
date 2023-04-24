@@ -5,9 +5,9 @@ import axios from 'axios';
 export const fetchFromServer = createAsyncThunk(
   'channels/fetchFromServer',
   async (headers) => {
-    const response = await axios.get(routes.apiRequests.getData, { headers })
+    const response = await axios.get(routes.apiRequests.getData, { headers });
     return response.data;
-  }
+  },
 );
 
 const channelsSlice = createSlice({
@@ -15,26 +15,28 @@ const channelsSlice = createSlice({
   initialState: {
     channels: [],
     currentChannelId: null,
-    defaultChannelId: null
+    defaultChannelId: null,
   },
   reducers: {
     addChannel: (state, action) => {
-        state.channels.push(action.payload);
+      state.channels.push(action.payload);
     },
     removeChannel: (state, action) => {
       const idOfChannelToRemove = action.payload.id;
-      state.channels = state.channels.filter(channel => channel.id !== idOfChannelToRemove);
-      if(state.currentChannelId === idOfChannelToRemove) state.currentChannelId = state.defaultChannelId;
+      state.channels = state.channels.filter((channel) => channel.id !== idOfChannelToRemove);
+      if (state.currentChannelId === idOfChannelToRemove) {
+        state.currentChannelId = state.defaultChannelId;
+      }
     },
     renameChannel: (state, action) => {
-        const { id , name }= action.payload;
-        const targetChannel = state.channels.find(channel => channel.id === id);
-        console.log("targetChannel",targetChannel)
-        targetChannel.name  = name;
+      const { id, name } = action.payload;
+      const targetChannel = state.channels.find((channel) => channel.id === id);
+      console.log('targetChannel', targetChannel);
+      targetChannel.name = name;
     },
     setCurrentChannelId: (state, action) => {
       state.currentChannelId = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -47,5 +49,7 @@ const channelsSlice = createSlice({
   },
 });
 
-export const { addChannel, removeChannel, renameChannel, setCurrentChannelId } = channelsSlice.actions;
+export const {
+  addChannel, removeChannel, renameChannel, setCurrentChannelId,
+} = channelsSlice.actions;
 export default channelsSlice.reducer;

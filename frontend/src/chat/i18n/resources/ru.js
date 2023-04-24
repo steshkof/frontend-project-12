@@ -1,9 +1,9 @@
-const ru =  {
+const ru = {
   translation: {
     headerTitle: 'Hexlet Chat',
     auth: {
       login: 'Войти',
-      logout: 'Выйти',      
+      logout: 'Выйти',
       signup: 'Зарегистрироваться',
       registration: 'Регистрация',
       required: 'Обязательное поле',
@@ -21,7 +21,7 @@ const ru =  {
     page404: {
       pagenotFound: 'Страница не найдена',
       message: 'Но вы можете перейти',
-      homepage: 'на главную страницу'
+      homepage: 'на главную страницу',
     },
     errors: {
       network: 'Ошибка соединения',
@@ -60,11 +60,8 @@ const ru =  {
       channelCreated: 'Канал создан',
       channelRemoved: 'Канал удалён',
       channelRenamed: 'Канал переименован',
-    }
-  }
-}
+    },
+  },
+};
 
 export default ru;
-
-// import { useTranslation } from 'react-i18next';
-// const { t } = useTranslation();
