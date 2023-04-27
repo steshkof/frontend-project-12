@@ -6,12 +6,13 @@ import { getCurrentChannelId, getChannels, getMessages } from '../selectors ';
 const ChatRoom = () => {
   const { t } = useTranslation();
   const currentChannelId = useSelector(getCurrentChannelId);
-  
-  const messages = useSelector(getMessages)
-  const currentChannelMessages = messages.filter((message) => message.channelId === currentChannelId);
+
+  const messages = useSelector(getMessages);
+  const currentChannelMessages = messages
+    .filter((message) => message.channelId === currentChannelId);
   const messagesCount = currentChannelMessages.length;
 
-  const channels = useSelector(getChannels)
+  const channels = useSelector(getChannels);
   const currentChannelName = channels.find(({ id }) => id === currentChannelId)?.name;
 
   return (

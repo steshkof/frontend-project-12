@@ -12,7 +12,7 @@ const modalTypes = {
 
 const Modal = () => {
   const isOpened = useSelector(getModalOpenedState);
-  const type  = useSelector(getModalType);
+  const type = useSelector(getModalType);
   const OpenedModal = modalTypes[type];
   return isOpened && <OpenedModal />;
 };

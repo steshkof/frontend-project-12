@@ -10,17 +10,17 @@ const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const logout = () => {
+  const logOut = () => {
     localStorage.removeItem('user');
     setUser(null);
-  }
+  };
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const authContextProviderValue = {
     loggedIn: !!user?.token,
     user,
     logIn: (data) => logIn(data),
-    logOut: logout,
+    logOut,
     getAuthHeader: () => (user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
   };
 
