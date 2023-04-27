@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useSocket } from '../../contexts/contexts';
 import { closeModal } from '../../slices/modalsSlice';
 import notify from '../../notifications';
+import { getChannels, getModalChannelId, getModalChannelName } from '../../selectors ';
 
 const ModalRenameChannel = () => {
   const dispatch = useDispatch();
@@ -18,9 +19,9 @@ const ModalRenameChannel = () => {
     inputRef.current.select();
   }, []);
 
-  const existingChannels = useSelector((state) => state.channels.channels).map((c) => c.name);
-  const channelId = useSelector((state) => state.modals.channelId);
-  const channelName = useSelector((state) => state.modals?.channelName);
+  const existingChannels = useSelector(getChannels).map((c) => c.name);
+  const channelId = useSelector(getModalChannelId);
+  const channelName = useSelector(getModalChannelName);
 
   const modalAddChanelScheme = yup.object({
     name: yup

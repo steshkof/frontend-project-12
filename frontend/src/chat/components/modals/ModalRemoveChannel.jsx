@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalsSlice';
 import { useSocket } from '../../contexts/contexts';
 import notify from '../../notifications';
+import { getModalChannelId } from '../../selectors ';
 
 const ModalRemoveChannel = () => {
   const dispatch = useDispatch();
   const socket = useSocket();
-  const channelId = useSelector((state) => state.modals.channelId);
+  const channelId = useSelector(getModalChannelId);
   const { t } = useTranslation();
 
   const [isDeleting, setIsDeleting] = useState(false);

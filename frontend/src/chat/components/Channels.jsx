@@ -5,6 +5,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannelId } from '../slices/channelsSlice';
 import { openModal } from '../slices/modalsSlice';
+import { getCurrentChannelId, getChannels } from '../selectors ';
 
 const Channel = ({ channel, isActive, handleChoose }) => {
   const buttonVariant = isActive ? 'secondary' : 'light';
@@ -47,8 +48,8 @@ const Channel = ({ channel, isActive, handleChoose }) => {
 };
 
 const Channels = () => {
-  const channels = useSelector((state) => state.channels.channels);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const channels = useSelector(getChannels);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 

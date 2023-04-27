@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { closeModal } from '../../slices/modalsSlice';
 import { setCurrentChannelId } from '../../slices/channelsSlice';
 import { useSocket } from '../../contexts/contexts';
+import { getChannels } from '../../selectors ';
 
 import notify from '../../notifications';
 
@@ -20,7 +21,7 @@ const ModalAddChanel = () => {
     inputRef.current.focus();
   }, []);
 
-  const existingChannels = useSelector((state) => state.channels.channels).map((c) => c.name);
+  const existingChannels = useSelector(getChannels).map((c) => c.name);
   const modalAddChanelScheme = yup.object({
     name: yup
       .string()

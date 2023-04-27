@@ -7,13 +7,14 @@ import { useTranslation } from 'react-i18next';
 import * as filter from 'leo-profanity';
 import images from '../images/images';
 import { useAuth, useSocket } from '../contexts/contexts';
+import { getCurrentChannelId, getModalOpenedState } from '../selectors ';
 
 const MessageForm = () => {
   const { user } = useAuth();
   const socket = useSocket();
   const inputRef = useRef();
-  const channelId = useSelector((state) => state.channels.currentChannelId);
-  const modalIsOpened = useSelector((state) => state.modals.isOpened);
+  const channelId = useSelector(getCurrentChannelId);
+  const modalIsOpened = useSelector(getModalOpenedState);
 
   const { t } = useTranslation();
 

@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import ModalAddChanel from './ModalAddChanel';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
+import { getModalOpenedState, getModalType } from '../../selectors ';
 
 const modalTypes = {
   add: ModalAddChanel,
@@ -10,7 +11,8 @@ const modalTypes = {
 };
 
 const Modal = () => {
-  const { isOpened, type } = useSelector((state) => state.modals);
+  const isOpened = useSelector(getModalOpenedState);
+  const type  = useSelector(getModalType);
   const OpenedModal = modalTypes[type];
   return isOpened && <OpenedModal />;
 };
