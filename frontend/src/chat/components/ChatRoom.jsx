@@ -1,3 +1,4 @@
+import { useRef, useEffect  } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import MessageForm from './MessageForm';
@@ -7,7 +8,13 @@ const ChatRoom = () => {
   const { t } = useTranslation();
   const currentChannelId = useSelector(getCurrentChannelId);
 
+  const messagebox = useRef();
   const messages = useSelector(getMessages);
+
+  useEffect(() => {
+    messagebox.current.scrollTop = messagebox.current.scrollHeight;
+  }, [messages]);
+
   const currentChannelMessages = messages
     .filter((message) => message.channelId === currentChannelId);
   const messagesCount = currentChannelMessages.length;
@@ -24,7 +31,7 @@ const ChatRoom = () => {
           </p>
           <span className="text-muted">{ t('chatroom.messagesCounter.messagesCount', { count: messagesCount }) }</span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messagebox}>
           {currentChannelMessages.map((message) => (
             <div key={message.id} className="text-break mb-2">
               <b>{message.username}</b>
